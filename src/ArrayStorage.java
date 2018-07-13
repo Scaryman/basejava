@@ -5,55 +5,49 @@ import java.util.Arrays;
  */
 public class ArrayStorage {
     Resume[] storage = new Resume[10000];
+    int size = 0;
 
     void clear() {
-        for (int n = 0; n < storage.length; n++)
-            if (storage[n] == null)
-                break;
-            else
-                storage[n] = null;
+        Arrays.fill(storage, null);
+        size = 0;
     }
 
     void save(Resume r) {
-        storage[size()] = r;
+        storage[size] = r;
+        size++;
     }
 
     Resume get(String uuid) {
-        for (Resume el : storage)
-            if (el == null)
-                return new Resume();
-            else if (el.uuid.equals(uuid))
-                return el;
+        for (int n = 0; n < size; n++) {
+            if (storage[n].uuid.equals(uuid)) {
+                return storage[n];
+            }
+        }
         return new Resume();
     }
 
     void delete(String uuid) {
-        boolean elFound = false;
-        for (int n = 0; n < storage.length; n++)
-            if (storage[n] == null)
+        for (int n = 0; n < size; n++) {
+            if (storage[n].uuid.equals(uuid)) {
+                if (n + 1 < size) {
+                    System.arraycopy(storage, n + 1, storage, n, size - n - 1);
+                }
+                size--;
+                storage[size] = null;
                 break;
-            else if (storage[n].uuid.equals(uuid)) {
-                storage[n] = null;
-                elFound = true;
-            } else if (elFound) {
-                storage[n - 1] = storage[n];
-                storage[n] = null;
             }
+        }
     }
 
     /**
      * @return array, contains only Resumes in storage (without null)
      */
     Resume[] getAll() {
-        return Arrays.copyOf(storage, size());
+        return Arrays.copyOf(storage, size);
     }
 
     int size() {
-        int n;
-        for (n = 0; n < storage.length; n++)
-            if (storage[n] == null)
-                break;
-        return n++;
+        return size;
     }
 
 }
