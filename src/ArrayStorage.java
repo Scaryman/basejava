@@ -8,7 +8,7 @@ public class ArrayStorage {
     int size = 0;
 
     void clear() {
-        Arrays.fill(storage, null);
+        Arrays.fill(storage, 0, size - 1, null);
         size = 0;
     }
 
@@ -18,20 +18,18 @@ public class ArrayStorage {
     }
 
     Resume get(String uuid) {
-        for (int n = 0; n < size; n++) {
-            if (storage[n].uuid.equals(uuid)) {
-                return storage[n];
+        for (int i = 0; i < size; i++) {
+            if (storage[i].uuid.equals(uuid)) {
+                return storage[i];
             }
         }
-        return new Resume();
+        return null;
     }
 
     void delete(String uuid) {
-        for (int n = 0; n < size; n++) {
-            if (storage[n].uuid.equals(uuid)) {
-                if (n + 1 < size) {
-                    System.arraycopy(storage, n + 1, storage, n, size - n - 1);
-                }
+        for (int i = 0; i < size; i++) {
+            if (storage[i].uuid.equals(uuid)) {
+                System.arraycopy(storage, i + 1, storage, i, size - i - 1);
                 size--;
                 storage[size] = null;
                 break;
