@@ -13,27 +13,56 @@ public class ArrayStorage {
     }
 
     void save(Resume r) {
-        storage[size] = r;
-        size++;
+        if (size < storage.length) {
+            if (getIndex(r.uuid) >= 0) {
+                System.out.println("Такое резюме уже есть в базе");
+            } else {
+                storage[size] = r;
+                size++;
+            }
+        } else {
+            System.out.println("База полностью заполнена");
+        }
+    }
+
+    void update(Resume r) {
+        int index = getIndex(r.uuid);
+        if (index >= 0) {
+            storage[index] = r;
+        } else {
+            System.out.println("Резюме не найдено");
+        }
     }
 
     Resume get(String uuid) {
+        int index = getIndex(uuid);
+        if (index >= 0) {
+            return storage[index];
+        } else {
+            System.out.println("Резуюме не найдено");
+            return null;
+        }
+    }
+
+    private int getIndex(String uuid) {
         for (int i = 0; i < size; i++) {
             if (storage[i].uuid.equals(uuid)) {
-                return storage[i];
+                return i;
             }
         }
-        return null;
+        return -1;
     }
 
     void delete(String uuid) {
-        for (int i = 0; i < size; i++) {
-            if (storage[i].uuid.equals(uuid)) {
-                System.arraycopy(storage, i + 1, storage, i, size - i - 1);
-                size--;
-                storage[size] = null;
-                break;
+        int index = getIndex(uuid);
+        if (index >= 0) {
+            if (index + 1 < size) {
+                System.arraycopy(storage, index + 1, storage, index, size - index - 1);
             }
+            size--;
+            storage[size] = null;
+        } else {
+            System.out.println("Резуме не найдено");
         }
     }
 
