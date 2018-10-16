@@ -1,4 +1,6 @@
-package ru.javawebinar.basejava;
+package ru.javawebinar.basejava.storage;
+
+import ru.javawebinar.basejava.model.Resume;
 
 import java.util.Arrays;
 
@@ -9,14 +11,14 @@ public class ArrayStorage {
     Resume[] storage = new Resume[10000];
     int size = 0;
 
-    void clear() {
+    public void clear() {
         Arrays.fill(storage, 0, size, null);
         size = 0;
     }
 
-    void save(Resume r) {
+    public void save(Resume r) {
         if (size < storage.length) {
-            if (getIndex(r.uuid) >= 0) {
+            if (getIndex(r.getUuid()) >= 0) {
                 System.out.println("Такое резюме уже есть в базе");
             } else {
                 storage[size] = r;
@@ -27,8 +29,8 @@ public class ArrayStorage {
         }
     }
 
-    void update(Resume r) {
-        int index = getIndex(r.uuid);
+    public void update(Resume r) {
+        int index = getIndex(r.getUuid());
         if (index >= 0) {
             storage[index] = r;
         } else {
@@ -36,7 +38,7 @@ public class ArrayStorage {
         }
     }
 
-    Resume get(String uuid) {
+    public Resume get(String uuid) {
         int index = getIndex(uuid);
         if (index >= 0) {
             return storage[index];
@@ -46,7 +48,7 @@ public class ArrayStorage {
         }
     }
 
-    void delete(String uuid) {
+    public void delete(String uuid) {
         int index = getIndex(uuid);
         if (index >= 0) {
             if (index + 1 < size) {
@@ -62,17 +64,17 @@ public class ArrayStorage {
     /**
      * @return array, contains only Resumes in storage (without null)
      */
-    Resume[] getAll() {
+    public Resume[] getAll() {
         return Arrays.copyOf(storage, size);
     }
 
-    int size() {
+    public int size() {
         return size;
     }
 
     private int getIndex(String uuid) {
         for (int i = 0; i < size; i++) {
-            if (storage[i].uuid.equals(uuid)) {
+            if (storage[i].getUuid().equals(uuid)) {
                 return i;
             }
         }
