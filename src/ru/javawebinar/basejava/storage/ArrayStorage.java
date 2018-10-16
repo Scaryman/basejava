@@ -17,15 +17,13 @@ public class ArrayStorage {
     }
 
     public void save(Resume r) {
-        if (size < storage.length) {
-            if (getIndex(r.getUuid()) >= 0) {
-                System.out.println("Такое резюме уже есть в базе");
-            } else {
-                storage[size] = r;
-                size++;
-            }
-        } else {
+        if (getIndex(r.getUuid()) >= 0) {
+            System.out.println("Такое резюме уже есть в базе");
+        } else if (size >= storage.length) {
             System.out.println("База полностью заполнена");
+        } else {
+            storage[size] = r;
+            size++;
         }
     }
 
@@ -40,12 +38,11 @@ public class ArrayStorage {
 
     public Resume get(String uuid) {
         int index = getIndex(uuid);
-        if (index >= 0) {
-            return storage[index];
-        } else {
+        if (index == -1) {
             System.out.println("Резюме не найдено");
             return null;
         }
+        return storage[index];
     }
 
     public void delete(String uuid) {
