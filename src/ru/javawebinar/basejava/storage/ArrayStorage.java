@@ -8,18 +8,6 @@ import ru.javawebinar.basejava.model.Resume;
 public class ArrayStorage extends AbstractArrayStorage{
 
     @Override
-    public void save(Resume r) {
-        if (getIndex(r.getUuid()) >= 0) {
-            System.out.println("Такое резюме уже есть в базе");
-        } else if (size >= STORAGE_LIMIT) {
-            System.out.println("База полностью заполнена");
-        } else {
-            storage[size] = r;
-            size++;
-        }
-    }
-
-    @Override
     protected int getIndex(String uuid) {
         for (int i = 0; i < size; i++) {
             if (storage[i].getUuid().equals(uuid)) {
@@ -28,4 +16,10 @@ public class ArrayStorage extends AbstractArrayStorage{
         }
         return -1;
     }
+
+    @Override
+    protected void saveToArray(Resume r, int index) {
+        storage[size] = r;
+    }
+
 }

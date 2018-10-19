@@ -6,9 +6,22 @@ import java.util.Arrays;
 
 public abstract class AbstractArrayStorage implements Storage{
 
-    protected static final int STORAGE_LIMIT = 100000;
+    protected static final int STORAGE_LIMIT = 10;
     protected final Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int size = 0;
+
+    @Override
+    public void save(Resume r) {
+        int index = getIndex(r.getUuid());
+        if (index >= 0) {
+            System.out.println("Такое резюме уже есть в базе");
+        } else if (size >= STORAGE_LIMIT) {
+            System.out.println("База полностью заполнена");
+        } else {
+            saveToArray(r, index);
+            size++;
+        }
+    }
 
     @Override
     public void update(Resume r) {
@@ -34,18 +47,21 @@ public abstract class AbstractArrayStorage implements Storage{
         }
     }
 
+    @Override
     public void clear() {
         Arrays.fill(storage, 0, size, null);
         size = 0;
     }
 
+    @Override
     public int size() {
         return size;
     }
 
+    @Override
     public Resume get(String uuid) {
         int index = getIndex(uuid);
-        if (index == -1) {
+        if (index < 0) {
             System.out.println("Резюме не найдено");
             return null;
         }
@@ -61,5 +77,7 @@ public abstract class AbstractArrayStorage implements Storage{
     }
 
     protected abstract int getIndex(String uuid);
+
+    protected abstract void saveToArray(Resume r, int index);
 
 }
