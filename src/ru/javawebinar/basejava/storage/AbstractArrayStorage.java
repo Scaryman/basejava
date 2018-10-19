@@ -37,9 +37,7 @@ public abstract class AbstractArrayStorage implements Storage{
     public void delete(String uuid) {
         int index = getIndex(uuid);
         if (index >= 0) {
-            if (index + 1 < size) {
-                System.arraycopy(storage, index + 1, storage, index, size - index - 1);
-            }
+            deleteFromArray(index);
             size--;
             storage[size] = null;
         } else {
@@ -80,4 +78,5 @@ public abstract class AbstractArrayStorage implements Storage{
 
     protected abstract void saveToArray(Resume r, int index);
 
+    protected abstract void deleteFromArray(int index);
 }
