@@ -34,7 +34,7 @@ public abstract class AbstractArrayStorageTest {
     }
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         storage.clear();
         storage.save(R1);
         storage.save(R2);
@@ -54,7 +54,7 @@ public abstract class AbstractArrayStorageTest {
     }
 
     @Test(expected = StorageException.class)
-    public void saveOverflow() throws Exception{
+    public void saveOverflow() {
         try {
             for (int i = storage.size(); i <= AbstractArrayStorage.STORAGE_LIMIT - 1; i++) {
                 storage.save(new Resume());
@@ -114,7 +114,7 @@ public abstract class AbstractArrayStorageTest {
     }
 
     @Test
-    public void getAll() throws NoSuchFieldException {
+    public void getAll() {
         Resume[] result = storage.getAll();
         Assert.assertEquals(3, result.length);
         Assert.assertEquals(R1, result[0]);
