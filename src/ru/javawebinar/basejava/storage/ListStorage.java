@@ -15,17 +15,32 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected Boolean resumeExists(String uuid) {
-        for (Resume r : storage) {
-            if (r.getUuid().equals(uuid)) {
-                return true;
-            }
-        }
-        return false;
+    protected void saveResume(Resume resume) {
+        storage.add(resume);
     }
 
     @Override
-    protected void saveResume(Resume resume) {
-        storage.add(resume);
+    protected Resume getResume(Object uniqueStorageID) {
+        return storage.get((Integer) uniqueStorageID);
+    }
+
+//    @Override
+//    protected Resume getResume(String uuid) {
+//        for (Resume r : storage) {
+//            if (r.getUuid().equals(uuid)) {
+//                return r;
+//            }
+//        }
+//        return null;
+//    }
+
+    @Override
+    protected Object getUniqueStorageID(String uuid) {
+        for (int i = 0; i <= storage.size(); i++) {
+            if (storage.get(i).getUuid().equals(uuid)) {
+                return i;
+            }
+        }
+        return null;
     }
 }

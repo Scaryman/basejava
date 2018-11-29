@@ -18,7 +18,7 @@ public class ArrayStorage extends AbstractArrayStorage{
     }
 
     @Override
-    protected void saveToArray(Resume r, int index) {
+    protected void saveToArray(Resume r) {
         storage[size] = r;
     }
 
@@ -28,7 +28,12 @@ public class ArrayStorage extends AbstractArrayStorage{
     }
 
     @Override
-    protected void saveResume(Resume resume) {
-
+    protected Object getUniqueStorageID(String uuid) {
+        for (int i = 0; i < size; i++) {
+            if (storage[i].getUuid().equals(uuid)) {
+                return i;
+            }
+        }
+        return null;
     }
 }

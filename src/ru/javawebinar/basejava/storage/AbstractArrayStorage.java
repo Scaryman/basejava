@@ -1,13 +1,12 @@
 package ru.javawebinar.basejava.storage;
 
-import ru.javawebinar.basejava.exception.ExistStorageException;
 import ru.javawebinar.basejava.exception.NotExistStorageException;
 import ru.javawebinar.basejava.exception.StorageException;
 import ru.javawebinar.basejava.model.Resume;
 
 import java.util.Arrays;
 
-public abstract class AbstractArrayStorage extends AbstractStorage{
+public abstract class AbstractArrayStorage extends AbstractStorage {
 
     protected static final int STORAGE_LIMIT = 10;
     protected final Resume[] storage = new Resume[STORAGE_LIMIT];
@@ -20,26 +19,13 @@ public abstract class AbstractArrayStorage extends AbstractStorage{
     }
 
     @Override
-    protected Boolean resumeExists(String uuid) {
-        return getIndex(uuid) >= 0;
-    }
-
-    @Override
-    public void save(Resume r) {
-        int index = getIndex(r.getUuid());
-        if (index >= 0) {
-            throw new ExistStorageException(r.getUuid());
-        } else if (size >= STORAGE_LIMIT) {
-            throw new StorageException("База полностью заполнена", r.getUuid());
+    protected void saveResume(Resume resume) {
+        if (size >= STORAGE_LIMIT) {
+            throw new StorageException("База полностью заполнена", resume.getUuid());
         } else {
-            saveToArray(r, index);
+            saveToArray(resume);
             size++;
         }
-    }
-
-    @Override
-    protected void saveResume(Resume resume) {
-        
     }
 
     @Override
@@ -65,19 +51,14 @@ public abstract class AbstractArrayStorage extends AbstractStorage{
     }
 
 
-
     @Override
     public int size() {
         return size;
     }
 
     @Override
-    public Resume get(String uuid) {
-        int index = getIndex(uuid);
-        if (index < 0) {
-            throw new NotExistStorageException(uuid);
-        }
-        return storage[index];
+    protected Resume getResume(Object uniqueStorageID) {
+        return storage[(Integer) uniqueStorageID];
     }
 
     /**
@@ -90,7 +71,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage{
 
     protected abstract int getIndex(String uuid);
 
-    protected abstract void saveToArray(Resume r, int index);
+    protected abstract void saveToArray(Resume r);
 
     protected abstract void deleteFromArray(int index);
 }
