@@ -8,47 +8,45 @@ public abstract class AbstractStorage implements Storage {
 
     @Override
     public void save(Resume r) {
-        Object uniqueStorageID = getUniqueStorageID(r.getUuid());
-        if (uniqueStorageID != null) {
-            throw new ExistStorageException(r.getUuid());
-        } else {
-            saveResume(r);
-        }
+        checkAndGetUniqueStorageID(r.getUuid(), false);
+        saveResume(r);
     }
 
     @Override
     public void update(Resume r) {
-//        Resume resume = get(r.getUuid());
-//        resume = r;
+        Object uniqueStorageID = checkAndGetUniqueStorageID(r.getUuid(), true);
+        updateResume(uniqueStorageID, r);
     }
 
     @Override
     public Resume get(String uuid) {
-        Object uniqueStorageID = getUniqueStorageID(uuid);
-        if (uniqueStorageID == null) {
-            throw new NotExistStorageException(uuid);
-        } else {
-            return getResume(uniqueStorageID);
-        }
+        Object uniqueStorageID = checkAndGetUniqueStorageID(uuid, true);
+        return getResume(uniqueStorageID);
     }
 
     @Override
     public void delete(String uuid) {
-
+        Object uniqueStorageID = checkAndGetUniqueStorageID(uuid, true);
+        deleteResume(uniqueStorageID);
     }
 
-    @Override
-    public Resume[] getAll() {
-        return new Resume[0];
+    private Object checkAndGetUniqueStorageID(String uuid, Boolean exists) {
+        Object uniqueStorageID = getUniqueStorageID(uuid);
+        if (exists && uniqueStorageID == null) {
+            throw new NotExistStorageException(uuid);
+        } else if (!exists && uniqueStorageID != null) {
+            throw new ExistStorageException(uuid);
+        }
+        return uniqueStorageID;
     }
 
-    @Override
-    public int size() {
-        return 0;
-    }
-
-//    protected abstract Boolean resumeExists(String uuid);
     protected abstract void saveResume(Resume resume);
+
     protected abstract Resume getResume(Object uniqueStorageID);
+
     protected abstract Object getUniqueStorageID(String uuid);
+
+    protected abstract void updateResume(Object uniqueStorageID, Resume resume);
+
+    protected abstract void deleteResume(Object uniqueStorageID);
 }

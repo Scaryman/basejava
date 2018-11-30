@@ -15,13 +15,23 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
+    public Resume[] getAll() {
+        return storage.values().toArray(new Resume[0]);
+    }
+
+    @Override
+    public int size() {
+        return storage.size();
+    }
+
+    @Override
     protected void saveResume(Resume resume) {
         storage.put(resume.getUuid(), resume);
     }
 
     @Override
     protected Resume getResume(Object uniqueStorageID) {
-        return storage.get(uniqueStorageID);
+        return storage.get(String.valueOf(uniqueStorageID));
     }
 
     @Override
@@ -31,5 +41,15 @@ public class MapStorage extends AbstractStorage {
         } else {
             return null;
         }
+    }
+
+    @Override
+    protected void updateResume(Object uniqueStorageID, Resume resume) {
+        storage.put(String.valueOf(uniqueStorageID), resume);
+    }
+
+    @Override
+    protected void deleteResume(Object uniqueStorageID) {
+        storage.remove(String.valueOf(uniqueStorageID));
     }
 }

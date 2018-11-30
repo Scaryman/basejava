@@ -1,6 +1,5 @@
 package ru.javawebinar.basejava.storage;
 
-import ru.javawebinar.basejava.exception.NotExistStorageException;
 import ru.javawebinar.basejava.exception.StorageException;
 import ru.javawebinar.basejava.model.Resume;
 
@@ -8,14 +7,24 @@ import java.util.Arrays;
 
 public abstract class AbstractArrayStorage extends AbstractStorage {
 
-    protected static final int STORAGE_LIMIT = 10;
-    protected final Resume[] storage = new Resume[STORAGE_LIMIT];
-    protected int size = 0;
+    static final int STORAGE_LIMIT = 10;
+    final Resume[] storage = new Resume[STORAGE_LIMIT];
+    int size = 0;
 
     @Override
     public void clear() {
         Arrays.fill(storage, 0, size, null);
         size = 0;
+    }
+
+    @Override
+    public Resume[] getAll() {
+        return Arrays.copyOf(storage, size);
+    }
+
+    @Override
+    public int size() {
+        return size;
     }
 
     @Override
@@ -28,32 +37,15 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         }
     }
 
-    @Override
-    public void update(Resume r) {
-        int index = getIndex(r.getUuid());
-        if (index >= 0) {
-            storage[index] = r;
-        } else {
-            throw new NotExistStorageException(r.getUuid());
-        }
+    protected void updateResume(Object uniqueStorageID, Resume resume) {
+        storage[(Integer) uniqueStorageID] = resume;
     }
 
     @Override
-    public void delete(String uuid) {
-        int index = getIndex(uuid);
-        if (index >= 0) {
-            deleteFromArray(index);
-            size--;
-            storage[size] = null;
-        } else {
-            throw new NotExistStorageException(uuid);
-        }
-    }
-
-
-    @Override
-    public int size() {
-        return size;
+    protected void deleteResume(Object uniqueStorageID) {
+        deleteFromArray((Integer) uniqueStorageID);
+        size--;
+        storage[size] = null;
     }
 
     @Override
@@ -61,17 +53,6 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         return storage[(Integer) uniqueStorageID];
     }
 
-    /**
-     * @return array, contains only Resumes in storage (without null)
-     */
-    @Override
-    public Resume[] getAll() {
-        return Arrays.copyOf(storage, size);
-    }
-
-    protected abstract int getIndex(String uuid);
-
     protected abstract void saveToArray(Resume r);
-
     protected abstract void deleteFromArray(int index);
 }

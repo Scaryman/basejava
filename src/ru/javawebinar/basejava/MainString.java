@@ -11,6 +11,7 @@ public class MainString {
         String str1 = "abc";
         String str3 = "c";
         String str2 = ("ab" + str3).intern();
+        //noinspection StringEquality
         System.out.println(str1 == str2);
     }
 }

@@ -6,16 +6,9 @@ import java.util.Arrays;
 
 public class SortedArrayStorage extends AbstractArrayStorage {
 
-    //TODO Убрать getIndex отсюда
-    @Override
-    protected int getIndex(String uuid) {
-        Resume searchKey = new Resume(uuid);
-        return Arrays.binarySearch(storage, 0, size, searchKey);
-    }
-
     @Override
     protected void saveToArray(Resume r) {
-        int index = (Integer) getUniqueStorageID(r.getUuid());
+        int index = getIndex(r.getUuid());
         index *= -1;
         System.arraycopy(storage, index - 1, storage, index, size - index + 1);
         storage[index - 1] = r;
@@ -29,15 +22,14 @@ public class SortedArrayStorage extends AbstractArrayStorage {
     }
 
     @Override
-    protected void saveResume(Resume resume) {
-
+    protected Object getUniqueStorageID(String uuid) {
+        int index = getIndex(uuid);
+        return index >= 0 ? index : null;
     }
 
-    @Override
-    protected Object getUniqueStorageID(String uuid) {
+    private int getIndex(String uuid) {
         Resume searchKey = new Resume(uuid);
-        int result = Arrays.binarySearch(storage, 0, size, searchKey);
-        return result >= 0 ? result : null;
+        return Arrays.binarySearch(storage, 0, size, searchKey);
     }
 
 }

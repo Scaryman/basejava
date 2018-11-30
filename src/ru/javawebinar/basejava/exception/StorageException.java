@@ -8,6 +8,7 @@ public class StorageException extends RuntimeException {
         this.uuid = uuid;
     }
 
+    @SuppressWarnings("unused")
     public String getUuid() {
         return uuid;
     }
