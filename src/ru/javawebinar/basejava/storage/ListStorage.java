@@ -25,7 +25,7 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected void saveResume(Resume resume) {
+    protected void saveResume(Resume resume, Object uniqueStorageID) {
         storage.add(resume);
     }
 
@@ -52,5 +52,10 @@ public class ListStorage extends AbstractStorage {
     @Override
     protected void deleteResume(Object uniqueStorageID) {
         storage.remove(((Integer) uniqueStorageID).intValue());
+    }
+
+    @Override
+    protected Boolean resumeExists(Object uniqueStorageID) {
+        return uniqueStorageID != null;
     }
 }

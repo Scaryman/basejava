@@ -28,11 +28,11 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected void saveResume(Resume resume) {
+    protected void saveResume(Resume resume, Object uniqueStorageID) {
         if (size >= STORAGE_LIMIT) {
             throw new StorageException("База полностью заполнена", resume.getUuid());
         } else {
-            saveToArray(resume);
+            saveToArray(resume, (Integer) uniqueStorageID);
             size++;
         }
     }
@@ -49,10 +49,15 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
+    protected Boolean resumeExists(Object uniqueStorageID) {
+        return (Integer) uniqueStorageID >= 0;
+    }
+
+    @Override
     protected Resume getResume(Object uniqueStorageID) {
         return storage[(Integer) uniqueStorageID];
     }
 
-    protected abstract void saveToArray(Resume r);
+    protected abstract void saveToArray(Resume r, int index);
     protected abstract void deleteFromArray(int index);
 }

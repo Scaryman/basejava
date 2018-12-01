@@ -25,7 +25,7 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    protected void saveResume(Resume resume) {
+    protected void saveResume(Resume resume, Object uniqueStorageID) {
         storage.put(resume.getUuid(), resume);
     }
 
@@ -36,11 +36,7 @@ public class MapStorage extends AbstractStorage {
 
     @Override
     protected Object getUniqueStorageID(String uuid) {
-        if (storage.get(uuid) != null) {
-            return uuid;
-        } else {
-            return null;
-        }
+        return uuid;
     }
 
     @Override
@@ -51,5 +47,10 @@ public class MapStorage extends AbstractStorage {
     @Override
     protected void deleteResume(Object uniqueStorageID) {
         storage.remove(String.valueOf(uniqueStorageID));
+    }
+
+    @Override
+    protected Boolean resumeExists(Object uniqueStorageID) {
+        return storage.get(String.valueOf(uniqueStorageID)) != null;
     }
 }
