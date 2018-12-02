@@ -50,7 +50,7 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    protected Boolean resumeExists(Object uniqueStorageID) {
+    protected boolean resumeExists(Object uniqueStorageID) {
         return storage.get(String.valueOf(uniqueStorageID)) != null;
     }
 }

@@ -49,7 +49,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected Boolean resumeExists(Object uniqueStorageID) {
+    protected boolean resumeExists(Object uniqueStorageID) {
         return (Integer) uniqueStorageID >= 0;
     }
 

@@ -56,5 +56,5 @@ public abstract class AbstractStorage implements Storage {
 
     protected abstract void deleteResume(Object uniqueStorageID);
 
-    protected abstract Boolean resumeExists(Object uniqueStorageID);
+    protected abstract boolean resumeExists(Object uniqueStorageID);
 }
