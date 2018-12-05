@@ -18,11 +18,6 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    public Resume[] getAll() {
-        return Arrays.copyOf(storage, size);
-    }
-
-    @Override
     public int size() {
         return size;
     }
@@ -58,6 +53,12 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         return storage[(Integer) uniqueStorageID];
     }
 
+    @Override
+    protected Resume[] getAll() {
+        return Arrays.copyOf(storage, size);
+    }
+
     protected abstract void saveToArray(Resume r, int index);
+
     protected abstract void deleteFromArray(int index);
 }

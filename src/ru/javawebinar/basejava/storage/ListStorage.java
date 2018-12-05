@@ -15,11 +15,6 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    public Resume[] getAll() {
-        return storage.toArray(new Resume[0]);
-    }
-
-    @Override
     public int size() {
         return storage.size();
     }
@@ -57,5 +52,10 @@ public class ListStorage extends AbstractStorage {
     @Override
     protected boolean resumeExists(Object uniqueStorageID) {
         return uniqueStorageID != null;
+    }
+
+    @Override
+    protected Resume[] getAll() {
+        return storage.toArray(new Resume[0]);
     }
 }
