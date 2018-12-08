@@ -11,15 +11,15 @@ import java.util.List;
 public abstract class AbstractStorage implements Storage {
 
     @Override
-    public void save(Resume r) {
-        Object uniqueStorageID = getNotExistedUniqueStorageID(r.getUuid());
-        saveResume(r, uniqueStorageID);
+    public void save(Resume resume) {
+        Object uniqueStorageID = getNotExistedUniqueStorageID(resume.getUuid());
+        saveResume(resume, uniqueStorageID);
     }
 
     @Override
-    public void update(Resume r) {
-        Object uniqueStorageID = getExistedUniqueStorageID(r.getUuid());
-        updateResume(uniqueStorageID, r);
+    public void update(Resume resume) {
+        Object uniqueStorageID = getExistedUniqueStorageID(resume.getUuid());
+        updateResume(uniqueStorageID, resume);
     }
 
     @Override
@@ -43,7 +43,7 @@ public abstract class AbstractStorage implements Storage {
 
     private Object getExistedUniqueStorageID(String uuid) {
         Object uniqueStorageID = getUniqueStorageID(uuid);
-        if (!resumeExists(uniqueStorageID)) {
+        if (!isExists(uniqueStorageID)) {
             throw new NotExistStorageException(uuid);
         }
         return uniqueStorageID;
@@ -51,7 +51,7 @@ public abstract class AbstractStorage implements Storage {
 
     private Object getNotExistedUniqueStorageID(String uuid) {
         Object uniqueStorageID = getUniqueStorageID(uuid);
-        if (resumeExists(uniqueStorageID)) {
+        if (isExists(uniqueStorageID)) {
             throw new ExistStorageException(uuid);
         }
         return uniqueStorageID;
@@ -67,7 +67,7 @@ public abstract class AbstractStorage implements Storage {
 
     protected abstract void deleteResume(Object uniqueStorageID);
 
-    protected abstract boolean resumeExists(Object uniqueStorageID);
+    protected abstract boolean isExists(Object uniqueStorageID);
 
     protected abstract Resume[] getAll();
 }

@@ -44,7 +44,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected boolean resumeExists(Object uniqueStorageID) {
+    protected boolean isExists(Object uniqueStorageID) {
         return (Integer) uniqueStorageID >= 0;
     }
 
@@ -58,7 +58,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         return Arrays.copyOf(storage, size);
     }
 
-    protected abstract void saveToArray(Resume r, int index);
+    protected abstract void saveToArray(Resume resume, int index);
 
     protected abstract void deleteFromArray(int index);
 }

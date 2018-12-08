@@ -45,7 +45,7 @@ public class MapUuidStorage extends AbstractStorage {
     }
 
     @Override
-    protected boolean resumeExists(Object uniqueStorageID) {
+    protected boolean isExists(Object uniqueStorageID) {
         return storage.containsKey(uniqueStorageID);
     }
 

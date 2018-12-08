@@ -50,7 +50,7 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected boolean resumeExists(Object uniqueStorageID) {
+    protected boolean isExists(Object uniqueStorageID) {
         return uniqueStorageID != null;
     }
 

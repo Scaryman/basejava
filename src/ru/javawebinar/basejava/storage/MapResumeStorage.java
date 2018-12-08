@@ -20,8 +20,8 @@ public class MapResumeStorage extends AbstractStorage {
     }
 
     @Override
-    protected void saveResume(Resume r, Object resume) {
-        storage.put(r.getUuid(), r);
+    protected void saveResume(Resume resume, Object uniqueStorageID) {
+        storage.put(resume.getUuid(), resume);
     }
 
     @Override
@@ -35,8 +35,8 @@ public class MapResumeStorage extends AbstractStorage {
     }
 
     @Override
-    protected void updateResume(Object resume, Resume r) {
-        storage.put(r.getUuid(), r);
+    protected void updateResume(Object uniqueStorageID, Resume resume) {
+        storage.put(resume.getUuid(), resume);
     }
 
     @Override
@@ -45,7 +45,7 @@ public class MapResumeStorage extends AbstractStorage {
     }
 
     @Override
-    protected boolean resumeExists(Object resume) {
+    protected boolean isExists(Object resume) {
         return resume != null;
     }
 

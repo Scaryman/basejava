@@ -31,10 +31,10 @@ public class SortedArrayStorage extends AbstractArrayStorage {
     private static final Comparator<Resume> RESUME_COMPARATOR = Comparator.comparing(Resume::getUuid);
 
     @Override
-    protected void saveToArray(Resume r, int index) {
+    protected void saveToArray(Resume resume, int index) {
         index *= -1;
         System.arraycopy(storage, index - 1, storage, index, size - index + 1);
-        storage[index - 1] = r;
+        storage[index - 1] = resume;
     }
 
     @Override
