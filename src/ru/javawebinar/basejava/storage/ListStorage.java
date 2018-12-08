@@ -5,7 +5,7 @@ import ru.javawebinar.basejava.model.Resume;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListStorage extends AbstractStorage {
+public class ListStorage extends AbstractStorage<Integer> {
 
     private final List<Resume> storage = new ArrayList<>();
 
@@ -20,17 +20,17 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected void saveResume(Resume resume, Object uniqueStorageID) {
+    protected void saveResume(Resume resume, Integer uniqueStorageID) {
         storage.add(resume);
     }
 
     @Override
-    protected Resume getResume(Object uniqueStorageID) {
-        return storage.get((Integer) uniqueStorageID);
+    protected Resume getResume(Integer uniqueStorageID) {
+        return storage.get(uniqueStorageID);
     }
 
     @Override
-    protected Object getUniqueStorageID(String uuid) {
+    protected Integer getUniqueStorageID(String uuid) {
         for (int i = 0; i < storage.size(); i++) {
             if (storage.get(i).getUuid().equals(uuid)) {
                 return i;
@@ -40,17 +40,17 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected void updateResume(Object uniqueStorageID, Resume resume) {
-        storage.set((Integer) uniqueStorageID, resume);
+    protected void updateResume(Integer uniqueStorageID, Resume resume) {
+        storage.set(uniqueStorageID, resume);
     }
 
     @Override
-    protected void deleteResume(Object uniqueStorageID) {
-        storage.remove(((Integer) uniqueStorageID).intValue());
+    protected void deleteResume(Integer uniqueStorageID) {
+        storage.remove(uniqueStorageID.intValue());
     }
 
     @Override
-    protected boolean isExists(Object uniqueStorageID) {
+    protected boolean isExists(Integer uniqueStorageID) {
         return uniqueStorageID != null;
     }
 

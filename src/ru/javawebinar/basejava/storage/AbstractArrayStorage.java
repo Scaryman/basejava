@@ -5,7 +5,7 @@ import ru.javawebinar.basejava.model.Resume;
 
 import java.util.Arrays;
 
-public abstract class AbstractArrayStorage extends AbstractStorage {
+public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
 
     static final int STORAGE_LIMIT = 10;
     final Resume[] storage = new Resume[STORAGE_LIMIT];
@@ -23,34 +23,34 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected void saveResume(Resume resume, Object uniqueStorageID) {
+    protected void saveResume(Resume resume, Integer uniqueStorageID) {
         if (size >= STORAGE_LIMIT) {
             throw new StorageException("База полностью заполнена", resume.getUuid());
         } else {
-            saveToArray(resume, (Integer) uniqueStorageID);
+            saveToArray(resume, uniqueStorageID);
             size++;
         }
     }
 
-    protected void updateResume(Object uniqueStorageID, Resume resume) {
-        storage[(Integer) uniqueStorageID] = resume;
+    protected void updateResume(Integer uniqueStorageID, Resume resume) {
+        storage[uniqueStorageID] = resume;
     }
 
     @Override
-    protected void deleteResume(Object uniqueStorageID) {
-        deleteFromArray((Integer) uniqueStorageID);
+    protected void deleteResume(Integer uniqueStorageID) {
+        deleteFromArray(uniqueStorageID);
         size--;
         storage[size] = null;
     }
 
     @Override
-    protected boolean isExists(Object uniqueStorageID) {
-        return (Integer) uniqueStorageID >= 0;
+    protected boolean isExists(Integer uniqueStorageID) {
+        return uniqueStorageID >= 0;
     }
 
     @Override
-    protected Resume getResume(Object uniqueStorageID) {
-        return storage[(Integer) uniqueStorageID];
+    protected Resume getResume(Integer uniqueStorageID) {
+        return storage[uniqueStorageID];
     }
 
     @Override
