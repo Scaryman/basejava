@@ -43,7 +43,7 @@ public abstract class AbstractStorage<USID> implements Storage {
 
     private USID getExistedUniqueStorageID(String uuid) {
         USID uniqueStorageID = getUniqueStorageID(uuid);
-        if (!isExists(uniqueStorageID)) {
+        if (!isExist(uniqueStorageID)) {
             throw new NotExistStorageException(uuid);
         }
         return uniqueStorageID;
@@ -51,7 +51,7 @@ public abstract class AbstractStorage<USID> implements Storage {
 
     private USID getNotExistedUniqueStorageID(String uuid) {
         USID uniqueStorageID = getUniqueStorageID(uuid);
-        if (isExists(uniqueStorageID)) {
+        if (isExist(uniqueStorageID)) {
             throw new ExistStorageException(uuid);
         }
         return uniqueStorageID;
@@ -67,7 +67,7 @@ public abstract class AbstractStorage<USID> implements Storage {
 
     protected abstract void deleteResume(USID uniqueStorageID);
 
-    protected abstract boolean isExists(USID uniqueStorageID);
+    protected abstract boolean isExist(USID uniqueStorageID);
 
     protected abstract Resume[] getAll();
 }

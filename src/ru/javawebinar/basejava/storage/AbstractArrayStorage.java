@@ -44,7 +44,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
     }
 
     @Override
-    protected boolean isExists(Integer uniqueStorageID) {
+    protected boolean isExist(Integer uniqueStorageID) {
         return uniqueStorageID >= 0;
     }
 
